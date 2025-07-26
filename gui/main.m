@@ -1,4 +1,3 @@
-// main.m
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
@@ -11,7 +10,61 @@
 
 @implementation AnyPodAppDelegate
 
+- (void)createMenu {
+    NSMenu *mainMenu = [[NSMenu alloc] init];
+
+    // App menu
+    NSMenuItem *appMenuItem = [[NSMenuItem alloc] init];
+    [mainMenu addItem:appMenuItem];
+
+    NSMenu *appMenu = [[NSMenu alloc] initWithTitle:@"AnyPod"];
+    NSString *appName = @"AnyPod";
+    NSString *quitTitle = [NSString stringWithFormat:@"Quit %@", appName];
+    NSMenuItem *quitItem = [[NSMenuItem alloc]
+        initWithTitle:quitTitle
+               action:@selector(terminate:)
+        keyEquivalent:@"q"];
+    [appMenu addItem:quitItem];
+    [appMenuItem setSubmenu:appMenu];
+
+    // File menu
+    NSMenuItem *fileMenuItem = [[NSMenuItem alloc] init];
+    [mainMenu addItem:fileMenuItem];
+
+    NSMenu *fileMenu = [[NSMenu alloc] initWithTitle:@"File"];
+    NSMenuItem *syncItem = [[NSMenuItem alloc]
+        initWithTitle:@"Sync"
+               action:nil
+        keyEquivalent:@"s"];
+    [fileMenu addItem:syncItem];
+
+    NSMenuItem *ejectItem = [[NSMenuItem alloc]
+        initWithTitle:@"Eject"
+               action:nil
+        keyEquivalent:@"e"];
+    [fileMenu addItem:ejectItem];
+
+    [fileMenuItem setSubmenu:fileMenu];
+
+    // Help menu
+    NSMenuItem *helpMenuItem = [[NSMenuItem alloc] init];
+    [mainMenu addItem:helpMenuItem];
+
+    NSMenu *helpMenu = [[NSMenu alloc] initWithTitle:@"Help"];
+    NSMenuItem *aboutItem = [[NSMenuItem alloc]
+        initWithTitle:@"About AnyPod"
+               action:nil
+        keyEquivalent:@""];
+
+    [helpMenu addItem:aboutItem];
+    [helpMenuItem setSubmenu:helpMenu];
+
+    [NSApp setMainMenu:mainMenu];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    [self createMenu];
+
     NSRect frame = NSMakeRect(0, 0, 400, 220);
     window = [[NSWindow alloc] initWithContentRect:frame
                                           styleMask:(NSTitledWindowMask |
