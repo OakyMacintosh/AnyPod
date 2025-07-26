@@ -1,32 +1,29 @@
+// main.m
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
 @interface AnyPodAppDelegate : NSObject <NSApplicationDelegate>
-{
-    NSWindow *window;
-    NSTextField *statusLabel;
-    NSButton *syncButton;
-    NSButton *ejectButton;
-    NSButton *browseButton;
-    NSTextField *musicPathField;
-}
 @end
 
-@implementation AnyPodAppDelegate
+@implementation AnyPodAppDelegate {
+    NSWindow *window;
+    NSTextField *statusLabel;
+    NSTextField *musicPathField;
+}
 
-- (void)applicationDidFinishLaunching:(NSNotification *)notification {
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSRect frame = NSMakeRect(0, 0, 400, 220);
     window = [[NSWindow alloc] initWithContentRect:frame
-                                          styleMask:(NSWindowStyleMaskTitled |
-                                                     NSWindowStyleMaskClosable |
-                                                     NSWindowStyleMaskResizable)
+                                          styleMask:(NSTitledWindowMask |
+                                                     NSClosableWindowMask |
+                                                     NSResizableWindowMask)
                                             backing:NSBackingStoreBuffered
                                               defer:NO];
     [window setTitle:@"AnyPod"];
-    
+
     NSView *contentView = [window contentView];
 
-    // Music folder label
+    // Label
     NSTextField *label = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 170, 100, 24)];
     [label setStringValue:@"Music Folder:"];
     [label setBezeled:NO];
@@ -35,32 +32,29 @@
     [label setSelectable:NO];
     [contentView addSubview:label];
 
-    // Music path field
+    // Path field
     musicPathField = [[NSTextField alloc] initWithFrame:NSMakeRect(120, 170, 180, 24)];
     [contentView addSubview:musicPathField];
 
     // Browse button
-    browseButton = [[NSButton alloc] initWithFrame:NSMakeRect(310, 170, 70, 24)];
+    NSButton *browseButton = [[NSButton alloc] initWithFrame:NSMakeRect(310, 170, 70, 24)];
     [browseButton setTitle:@"Browse"];
-    [browseButton setButtonType:NSButtonTypeMomentaryPushIn];
-    [browseButton setBezelStyle:NSBezelStyleRounded];
+    [browseButton setButtonType:NSMomentaryPushButton];
     [contentView addSubview:browseButton];
 
     // Sync button
-    syncButton = [[NSButton alloc] initWithFrame:NSMakeRect(40, 110, 120, 32)];
+    NSButton *syncButton = [[NSButton alloc] initWithFrame:NSMakeRect(40, 110, 120, 32)];
     [syncButton setTitle:@"Sync Music"];
-    [syncButton setButtonType:NSButtonTypeMomentaryPushIn];
-    [syncButton setBezelStyle:NSBezelStyleRegularSquare];
+    [syncButton setButtonType:NSMomentaryPushButton];
     [contentView addSubview:syncButton];
 
     // Eject button
-    ejectButton = [[NSButton alloc] initWithFrame:NSMakeRect(220, 110, 120, 32)];
+    NSButton *ejectButton = [[NSButton alloc] initWithFrame:NSMakeRect(220, 110, 120, 32)];
     [ejectButton setTitle:@"Eject iPod"];
-    [ejectButton setButtonType:NSButtonTypeMomentaryPushIn];
-    [ejectButton setBezelStyle:NSBezelStyleRegularSquare];
+    [ejectButton setButtonType:NSMomentaryPushButton];
     [contentView addSubview:ejectButton];
 
-    // Status label
+    // Status
     statusLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(20, 40, 360, 24)];
     [statusLabel setStringValue:@"Status: Idle"];
     [statusLabel setBezeled:NO];
@@ -75,11 +69,12 @@
 
 @end
 
-int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        NSApplication *app = [NSApplication sharedApplication];
-        AnyPodAppDelegate *delegate = [[AnyPodAppDelegate alloc] init];
-        [app setDelegate:delegate];
-        return NSApplicationMain(argc, argv);
-    }
+int main(int argc, const char *argv[]) {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSApplication *app = [NSApplication sharedApplication];
+    AnyPodAppDelegate *delegate = [[AnyPodAppDelegate alloc] init];
+    [app setDelegate:delegate];
+    int ret = NSApplicationMain(argc, argv);
+    [pool drain];
+    return ret;
 }
