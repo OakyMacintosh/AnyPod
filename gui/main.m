@@ -2,14 +2,14 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-@interface AnyPodAppDelegate : NSObject <NSApplicationDelegate>
-@end
-
-@implementation AnyPodAppDelegate {
+@interface AnyPodAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
     NSTextField *statusLabel;
     NSTextField *musicPathField;
 }
+@end
+
+@implementation AnyPodAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     NSRect frame = NSMakeRect(0, 0, 400, 220);
@@ -75,6 +75,6 @@ int main(int argc, const char *argv[]) {
     AnyPodAppDelegate *delegate = [[AnyPodAppDelegate alloc] init];
     [app setDelegate:delegate];
     int ret = NSApplicationMain(argc, argv);
-    [pool drain];
+    [pool release];
     return ret;
 }
